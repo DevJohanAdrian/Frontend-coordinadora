@@ -12,12 +12,37 @@ import {
 } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import { Button } from '@/shared/components/ui/button'
+import { clearState } from '@/presentation/store/slices/authSlice'
+import { useNavigate } from 'react-router'
+import { useSelector } from 'react-redux'
+import { AuthState } from '@/presentation/types/states/AuthState'
+import { toast } from "sonner"
+import { useDispatch } from 'react-redux'
+import type { AppDispatch } from '../../store/store';
+import { useEffect } from 'react'
 
 export const SignUpForm = ({onSubmit}: {onSubmit: (credentials: { nombres: string; apellidos: string; email: string; password: string; confirmPassword: string }) => void}) => {
+  const navigate = useNavigate()
   const form = useForm({ resolver: zodResolver(signUpSchema) })
+  const { user, isError, isLoading, isAuth, error } = useSelector((state: { auth: AuthState }) => state.auth)
+  const dispatch = useDispatch<AppDispatch>();
+
+
+
   const handleSubmit = (data: { nombres: string; apellidos: string; email: string; password: string; confirmPassword: string }) => {
     onSubmit(data)
   }
+
+  useEffect(() => {
+    console.log('state', user)
+    if (!isError && user && isAuth) {
+      navigate('/home', { replace: true })
+    } else if (error?.message) {
+      toast(error?.message,{ description: "Contacte con su administrador.",})
+      dispatch(clearState())
+    }
+  }, [user, isError, isAuth, error])
+
   return (
     <>
       <div className='border shadow rounded-xl bg-card text-card-foreground'>
