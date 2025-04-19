@@ -6,28 +6,23 @@ import {
   FormLabel,
   FormMessage
 } from '@/shared/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/shared/components/ui/select'
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+} from '@/shared/components/ui/card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select'
+import { Button } from '@/shared/components/ui/button'
+import { Input } from '@/shared/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ProductsSchema } from '../utils'
+import { EnviosSchema } from '@/presentation/validation/enviosSchemas'
 import { useNavigate } from 'react-router'
 import { useEffect, useState } from 'react'
+import { ProductTypeEnum, StatusEnum } from '@/domain/enums/envios.enum'
 
 export const EnviosForm = () => {
   const navigate = useNavigate()
@@ -35,37 +30,25 @@ export const EnviosForm = () => {
  
   
   const form = useForm({
-    resolver: zodResolver(ProductsSchema),
+    resolver: zodResolver(EnviosSchema),
     defaultValues: {
-      name: '',
-      sku: '',
-      description: '',
-      barcode: '',
-      price: '',
-      cost: '',
-      category: null,
-      provider: null,
-      status: null
+      productType: null,
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      weight: '',
+      height: '',
+      width: '',
+      length: '',
+      status: StatusEnum.EN_ESPERA,
+    
+
+
      }
   })
 
 
-  // Actualiza todos los valores del formulario al cambiar `selectedRow`
-  useEffect(() => {
-    if (selectedRow?.id) {
-      form.reset({
-        ...selectedRow,
-        status: {id:selectedRow.statusId, code:selectedRow.statusCode, description:selectedRow.statusDescription  },
-        category: {id:selectedRow.categoryId, code:selectedRow.categoryCode, description:selectedRow.categoryDescription  },
-        provider: {id:selectedRow.providerId, code:selectedRow.providerCode, description:selectedRow.providerDescription  }
-      })
-      setId(selectedRow.id)
-    }else{
-      form.reset()
-    }
-
- 
-  }, [selectedRow, form])
 
   const submitForm = (data) => {
     onSubmitCreateEdit(data);
