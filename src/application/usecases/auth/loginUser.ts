@@ -1,5 +1,7 @@
-import { AuthRepository, LoginCredentials } from '@/domain/repositories/AuthRepository';
+import { AuthRepository } from '@/domain/repositories/AuthRepository';
 import { User } from '@/domain/entities/User';
+import { LoginCredentials } from '@/domain/interfaces/User.interface';
+
 
 export class LoginUserUseCase {
   constructor(private authRepo: AuthRepository) {}
