@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInSchema } from '@/presentation/validation/authSchemas'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { AuthState } from '@/presentation/types/states/AuthState'
 import { toast } from "sonner"
 import {
@@ -17,10 +17,15 @@ import { Button } from '@/shared/components/ui/button'
 import { Spinner } from '@/shared/components/customComponents/Spinner'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { clearState } from '@/presentation/store/slices/authSlice'
+import { useDispatch } from 'react-redux'
+import type { AppDispatch } from '../../store/store';
+
 
 export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string; password: string }) => void}) => {
   const navigate = useNavigate()
-  const { user, isError, isLoading, isAuth } = useSelector((state: { auth: AuthState }) => state.auth)
+  const { user, isError, isLoading, isAuth, error } = useSelector((state: { auth: AuthState }) => state.auth)
+  const dispatch = useDispatch<AppDispatch>();
   const form = useForm({ resolver: zodResolver(signInSchema) })
 
   const handleSubmit = ({ email, password }: { email: string; password: string }) => {
@@ -32,14 +37,13 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
     console.log('state', user)
     if (!isError && user && isAuth) {
       navigate('/home', { replace: true })
-    } else {
-      toast('Error al iniciar sesión',{ description: "Contacte con su administrador.",})
+    } else if (error?.message) {
+      toast(error?.message,{ description: "Contacte con su administrador.",})
+      dispatch(clearState())
     }
-  }, [user, isError, isAuth])
+  }, [user, isError, isAuth, error])
 
-  const checkState = () => {
-    console.log('newSate', user)
-  }
+
   return (
     <>
       <div className='border shadow rounded-xl bg-card text-card-foreground'>
@@ -62,7 +66,7 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
                       <Input
                         id='email'
                         name='email'
-                        placeholder='m@example.com'
+                        placeholder='johndoe@example.com'
                         type='email'
                         autoComplete='false'
                         {...field}
@@ -86,7 +90,7 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
                       <Input
                         id='password'
                         name='password'
-                        placeholder='Enter your password'
+                        placeholder='Introduce tu contraseña.'
                         autoComplete='current-password'
                         type='password'
                         {...field}
@@ -101,7 +105,7 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
             
             <div className='flex items-center justify-center'>
               <Button type='submit' className='flex-1'>
-                Sign in
+                Iniciar sesión
               </Button>
             </div>
           </form>
@@ -110,9 +114,7 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
 
       {isLoading && <Spinner />}
 
-      <div>
-        <button onClick={checkState}>revisar state</button>
-      </div>
+    
     </>
   )
 }

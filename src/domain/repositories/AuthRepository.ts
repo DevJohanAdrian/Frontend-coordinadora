@@ -1,11 +1,9 @@
-import { User, RefreshTokenUser } from "../entities/User";
+import { LoginCredentials, RegisterCredentials, RefreshTokenUser } from "@/domain/interfaces/User.interface";
+import { User } from "../entities/User"
 
-export interface LoginCredentials {
-  email: string;
-  password: string;
-}
 
 export interface AuthRepository {
   login(credentials: LoginCredentials): Promise<User>;
   refreshToken(): Promise<RefreshTokenUser>;
+  register(credentials: RegisterCredentials): Promise<User>;
 }

@@ -4,12 +4,12 @@ import { refreshToken } from '@/presentation/store/slices/authSlice'
 
 // Axios instance
 export const axiosPublic = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/v1/api',
   withCredentials: true // Incluye cookies automáticamente
 })
 // Axios instance
 export const axiosPrivate = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/v1/api',
   headers: {
     'Content-Type': 'application/json',
   },

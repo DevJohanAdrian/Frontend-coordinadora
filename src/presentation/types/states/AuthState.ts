@@ -5,5 +5,5 @@ export interface AuthState {
     isLoading: boolean
     isError: boolean
     isAuth: boolean
-    errorMessage: string
+    error: Error | null
   }

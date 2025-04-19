@@ -59,3 +59,22 @@
 components -> slice -> caso de uso 
                     |-> apiRepository -> repository
                     |-> se hace el execute del caso de uso
+
+
+Tablas
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password VARCHAR(200) NOT NULL,
+  refresh_token VARCHAR(500),
+  token VARCHAR(500),
+
+);
+
+Vale necesito que leas todo el codebase de server y client  1 necesito que hagas el register  
+ya tengo la ruta configurada y los componentes y su pagina. 2- Empieza por el front end (Client) realizando la parte del slice del register, 
+y todo lo relacionado con la clean architecture 3- cuando termines con el front end pasa al banck end  
+y has lo mismo teniendo en cuenta lo hecho en el front end. 
+4 antes de realizar cualquier cambios lee todo el code base no omitas ningun archivo tanto de client como de server para que actualices  
+el contexto y veas los cambios realizados.
