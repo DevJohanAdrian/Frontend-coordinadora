@@ -20,7 +20,6 @@ export const login = createAsyncThunk(
     try {
       const useCase = new LoginUserUseCase(new AuthApiRepository())
       const user = await useCase.execute(credentials)
-      localStorage.setItem('token', user.token) // guardar token
       return user
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data)
@@ -44,7 +43,6 @@ export const register = createAsyncThunk(
     try {
       const useCase = new RegisterUserUseCase(new AuthApiRepository())
       const user = await useCase.execute(credentials)
-      localStorage.setItem('token', user.token) // guardar token
       return user
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message)
@@ -83,6 +81,8 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.user = action.payload;
       state.isAuth = true;
+      sessionStorage.setItem('accessToken', action.payload.token);
+      console.log('new-accesst store', action.payload.token)
     })
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;

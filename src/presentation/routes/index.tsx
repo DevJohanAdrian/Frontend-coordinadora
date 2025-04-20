@@ -6,14 +6,14 @@ import HomePage from '@/presentation/pages/home/HomePage';
 const SignIn = lazy(() => import('@/presentation/pages/auth/LoginPage'));
 const SignUp = lazy(() => import('@/presentation/pages/auth/RegisterPage'));
 const Access = lazy(() => import('@/presentation/components/home/AccessCardModules'))
-const Envios = lazy(() => import('@/presentation/pages/envios/Envios.page'));
+const Shipments = lazy(() => import('@/presentation/pages/shipments/EnviosPage'));
 
   const AppRoutes: React.FC = () => {
     return (
         <Routes>
         {/* Rutas principales */}
     
-        <Route path='/iniciar-sesion' element={<SignIn />} />
+        <Route path='/iniciar-sesion' index element={<SignIn />} />
         <Route path='/crear-cuenta' element={<SignUp />} />
 
             {/* Ruta padre con subrutas */}
@@ -26,7 +26,7 @@ const Envios = lazy(() => import('@/presentation/pages/envios/Envios.page'));
             
           }>
           <Route index element={<Access />} />
-          <Route path='crear-envio' element={<Envios />} />
+          <Route path='crear-envio' element={<Shipments />} />
            {/*<Route path='notes' element={<Notes />} />
           <Route path='settings' element={<Settings />} />
           <Route path='events' element={<Events />} />

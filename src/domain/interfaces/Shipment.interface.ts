@@ -1,4 +1,4 @@
-export interface Shipment {
+export interface ShipmentData {
     id?: string;
     productType: string;
     street: string;
@@ -9,4 +9,5 @@ export interface Shipment {
     height: number;
     width: number;
     length: number;
+    status: string;
   }

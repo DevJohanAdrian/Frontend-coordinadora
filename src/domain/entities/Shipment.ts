@@ -9,4 +9,5 @@ export interface Shipment {
     height: number;
     width: number;
     length: number;
+    status: string;
   }

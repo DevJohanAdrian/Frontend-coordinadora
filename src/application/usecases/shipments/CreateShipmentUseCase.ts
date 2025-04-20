@@ -5,6 +5,6 @@ import { ShipmentRepository } from '@/domain/repositories/ShipmentRepository'
 export class CreateShipmentUseCase {
     constructor(private shipmentRepo: ShipmentRepository) { }
     async execute(data: ShipmentData): Promise<Shipment> {
-        return this.shipmentRepo.create(data)
+      return this.shipmentRepo.create(data)
     }
 }

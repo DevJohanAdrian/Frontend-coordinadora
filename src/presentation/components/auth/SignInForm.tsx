@@ -1,9 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInSchema } from '@/presentation/validation/authSchemas'
-import { useNavigate } from 'react-router'
-import { AuthState } from '@/presentation/types/states/AuthState'
-import { toast } from "sonner"
+
 import {
   Form,
   FormControl,
@@ -14,35 +12,14 @@ import {
 } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import { Button } from '@/shared/components/ui/button'
-import { Spinner } from '@/shared/components/customComponents/Spinner'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { clearState } from '@/presentation/store/slices/authSlice'
-import { useDispatch } from 'react-redux'
-import type { AppDispatch } from '../../store/store';
 
 
-export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string; password: string }) => void}) => {
-  const navigate = useNavigate()
-  const { user, isError, isLoading, isAuth, error } = useSelector((state: { auth: AuthState }) => state.auth)
-  const dispatch = useDispatch<AppDispatch>();
+export const SignInForm = ({ onSubmit }: { onSubmit: (credentials: { email: string; password: string }) => void }) => {
   const form = useForm({ resolver: zodResolver(signInSchema) })
 
   const handleSubmit = ({ email, password }: { email: string; password: string }) => {
     onSubmit({ email, password })
   }
-
-
-  useEffect(() => {
-    console.log('state', user)
-    if (!isError && user && isAuth) {
-      navigate('/home', { replace: true })
-    } else if (error?.message) {
-      toast(error?.message,{ description: "Contacte con su administrador.",})
-      dispatch(clearState())
-    }
-  }, [user, isError, isAuth, error])
-
 
   return (
     <>
@@ -102,7 +79,7 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
                 )
               }}
             />
-            
+
             <div className='flex items-center justify-center'>
               <Button type='submit' className='flex-1'>
                 Iniciar sesión
@@ -112,9 +89,8 @@ export const SignInForm = ({onSubmit}: {onSubmit: (credentials: { email: string;
         </Form>
       </div>
 
-      {isLoading && <Spinner />}
 
-    
+
     </>
   )
 }
